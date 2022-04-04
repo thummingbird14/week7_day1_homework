@@ -4,15 +4,15 @@ import React, {useState} from 'react';
 
 function App() {
   const [todos, setToDos] = useState([
-    "Buy Shopping",
-    "Clean Bathroom",
-    "Car's MOT"
+    {name: "Buy Shopping", priority: "high"},
+    {name: "Clean Bathroom", priority: "low"},
+    {name: "Car's MOT", priority: "high"}
   ]);
 
   const toDoNodes = todos.map((item, index) => {
     return(
-      <li key={index}> 
-        <span>{item}</span>
+      <li key={index} className={(item.priority === "high") ? 'high' : 'low'}> 
+        <span>{item.name}</span>
       </li>
     )
     });
@@ -23,11 +23,11 @@ function App() {
     setNewItem(event.target.value);
   }
 
+
   const saveNewItem = (event) => {
     event.preventDefault();
     const copyToDos = [...todos];
-    console.log(newItem);
-    copyToDos.push(newItem);
+    copyToDos.push({name:newItem, priority:"low"});
     setToDos(copyToDos);
     setNewItem('');
   }
@@ -39,6 +39,10 @@ function App() {
       <form onSubmit={saveNewItem}> 
         <label htmlFor='new-item'>Add a new list item:</label>
         <input id='new-item' type='text' value={newItem} onChange={handleItemInput}/>
+        <input type='radio' id='high' name='priority' value='high'/>
+        <label for='high'>High</label>
+        <input type='radio' id='low' name='priority' value='low'/>
+        <label for='low'>Low</label>
         <input type='submit' value='Save New Item'/>
 
       </form>
