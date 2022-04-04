@@ -22,12 +22,17 @@ function App() {
   const handleItemInput = (event) => {
     setNewItem(event.target.value);
   }
+  
+  const [selectedOption, setSelectedOption] = useState('low');
 
+  const onValueChange = (event) => {
+    setSelectedOption(event.target.value);
+  }
 
   const saveNewItem = (event) => {
     event.preventDefault();
     const copyToDos = [...todos];
-    copyToDos.push({name:newItem, priority:"low"});
+    copyToDos.push({name:newItem, priority:selectedOption});
     setToDos(copyToDos);
     setNewItem('');
   }
@@ -39,9 +44,15 @@ function App() {
       <form onSubmit={saveNewItem}> 
         <label htmlFor='new-item'>Add a new list item:</label>
         <input id='new-item' type='text' value={newItem} onChange={handleItemInput}/>
-        <input type='radio' id='high' name='priority' value='high'/>
+        <input type='radio' id='high' name='priority' value='high'
+          checked={selectedOption==='high'}
+          onChange={onValueChange}
+        />
         <label for='high'>High</label>
-        <input type='radio' id='low' name='priority' value='low'/>
+        <input type='radio' id='low' name='priority' value='low'
+          checked={selectedOption==='low'}
+          onChange={onValueChange}
+        />
         <label for='low'>Low</label>
         <input type='submit' value='Save New Item'/>
 
